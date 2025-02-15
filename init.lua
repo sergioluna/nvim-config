@@ -1,14 +1,14 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 
 vim.opt.rtp:prepend(lazypath)
@@ -38,47 +38,47 @@ require("lazy").setup({
 
         end,
     },
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function ()
-			local configs = require("nvim-treesitter.configs")
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function ()
+            local configs = require("nvim-treesitter.configs")
 
-			configs.setup({
-				ensure_installed = {
-					"c",
-					"lua",
-					"vim",
-					"vimdoc",
-					"query",
-					"javascript",
-					"html",
-					"rust"
-				},
-				sync_install = false,
-				-- recommended false if no tree-sitter CLI
-				auto_install = false,
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
-		end
-	},
+            configs.setup({
+                ensure_installed = {
+                    "c",
+                    "lua",
+                    "vim",
+                    "vimdoc",
+                    "query",
+                    "javascript",
+                    "html",
+                    "rust"
+                },
+                sync_install = false,
+                -- recommended false if no tree-sitter CLI
+                auto_install = false,
+                highlight = { enable = true },
+                indent = { enable = true },
+            })
+        end
+    },
 
-	{ "williamboman/mason.nvim" },
-	{ "williamboman/mason-lspconfig.nvim" },
+    { "williamboman/mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
 
-	{ "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
-	{ "neovim/nvim-lspconfig" },
-	{ "hrsh7th/cmp-nvim-lsp" },
-	{ "hrsh7th/nvim-cmp" },
-	{ "L3MON4D3/LuaSnip" },
+    { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
+    { "neovim/nvim-lspconfig" },
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/nvim-cmp" },
+    { "L3MON4D3/LuaSnip" },
 
-	{
-		"nvim-telescope/telescope.nvim", tag = "0.1.5",
-		dependencies = { "nvim-lua/plenary.nvim" }
-	},
+    {
+        "nvim-telescope/telescope.nvim", tag = "0.1.5",
+        dependencies = { "nvim-lua/plenary.nvim" }
+    },
 
-	{ "tpope/vim-fugitive" },
+    { "tpope/vim-fugitive" },
 
     { "mbbill/undotree" },
 })
@@ -87,37 +87,37 @@ require("lazy").setup({
 local lsp_zero = require("lsp-zero")
 
 lsp_zero.on_attach(function(client, bufnr)
-	-- see :help lsp-zero-keybindings
-	-- to learn the available actions
-	lsp_zero.default_keymaps({buffer = bufnr})
+    -- see :help lsp-zero-keybindings
+    -- to learn the available actions
+    lsp_zero.default_keymaps({buffer = bufnr})
 end)
 
 -- mason setup
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = {
-		"lua_ls",
-		"rust_analyzer",
-		"ts_ls",
+    ensure_installed = {
+        "lua_ls",
+        "rust_analyzer",
+        "ts_ls",
         "denols",
-		"html",
-		"cssls",
-		"dockerls"
-	},
-	handlers = {
-		lsp_zero.default_setup,
-	},
+        "html",
+        "cssls",
+        "dockerls"
+    },
+    handlers = {
+        lsp_zero.default_setup,
+    },
 })
 
 -- lsp config setups should be after mason-lspconfig setup
 require("lspconfig")
 require("lspconfig").denols.setup {
-  root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+    root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
 }
 
 require("lspconfig").ts_ls.setup {
-  root_dir = require("lspconfig").util.root_pattern("package.json"),
-  single_file_support = false
+    root_dir = require("lspconfig").util.root_pattern("package.json"),
+    single_file_support = false
 }
 
 require("sluna")
