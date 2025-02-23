@@ -6,7 +6,7 @@ if not vim.loop.fs_stat(lazypath) then
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
+        "--branch=stable",
         lazypath,
     })
 end
@@ -64,14 +64,14 @@ require("lazy").setup({
         end
     },
 
-    { "williamboman/mason.nvim" },
-    { "williamboman/mason-lspconfig.nvim" },
-
     { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
     { "neovim/nvim-lspconfig" },
     { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/nvim-cmp" },
-    { "L3MON4D3/LuaSnip" },
+    { "williamboman/mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
+
+    -- { "L3MON4D3/LuaSnip" },
 
     {
         "nvim-telescope/telescope.nvim", tag = "0.1.5",
@@ -83,14 +83,19 @@ require("lazy").setup({
     { "mbbill/undotree" },
 })
 
--- lsp zero setup
 local lsp_zero = require("lsp-zero")
-
 lsp_zero.on_attach(function(client, bufnr)
     -- see :help lsp-zero-keybindings
-    -- to learn the available actions
     lsp_zero.default_keymaps({buffer = bufnr})
 end)
+
+-- This should be executed before language server configurations
+local lspconfig_defaults = require('lspconfig').util.default_config
+lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+    'force',
+    lspconfig_defaults.capabilities,
+    require('cmp_nvim_lsp').default_capabilities()
+)
 
 -- mason setup
 require("mason").setup({})
@@ -105,19 +110,68 @@ require("mason-lspconfig").setup({
         "dockerls"
     },
     handlers = {
-        lsp_zero.default_setup,
+        -- first function is default function
+        function(server_name)
+            require('lspconfig')[server_name].setup({})
+        end,
+        denols = function()
+            local lspconfig = require('lspconfig')
+            lspconfig.denols.setup({
+                root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+            })
+        end,
+        ts_ls = function()
+            local lspconfig = require('lspconfig')
+            lspconfig.denols.setup({
+                root_dir = lspconfig.util.root_pattern("package.json"),
+                single_file_support = false
+            })
+        end,
     },
 })
 
--- lsp config setups should be after mason-lspconfig setup
-require("lspconfig")
-require("lspconfig").denols.setup {
-    root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+local cmp = require('cmp')
+cmp.setup({
+    sources = {
+        {name = 'nvim_lsp'},
+    },
+    snippet = {
+        expand = function(args)
+            vim.snippet.expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({}),
+})
+
+local diagnostic_icons = {
+    [vim.diagnostic.severity.ERROR] = "",
+    [vim.diagnostic.severity.WARN]  = "",
+    [vim.diagnostic.severity.HINT]  = "",
+    [vim.diagnostic.severity.INFO]  = "",
 }
 
-require("lspconfig").ts_ls.setup {
-    root_dir = require("lspconfig").util.root_pattern("package.json"),
-    single_file_support = false
-}
+-- Set diagnostic signs (left gutter)
+for severity, icon in pairs(diagnostic_icons) do
+    local hl = "DiagnosticSign" .. ({
+        [vim.diagnostic.severity.ERROR] = "Error",
+        [vim.diagnostic.severity.WARN]  = "Warn",
+        [vim.diagnostic.severity.HINT]  = "Hint",
+        [vim.diagnostic.severity.INFO]  = "Info",
+    })[severity]
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+-- Set diagnostic virtual text (right-side hints)
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = function(diagnostic)
+            return diagnostic_icons[diagnostic.severity] .. " "
+        end,
+        spacing = 4,
+    },
+    update_in_insert = false,
+    severity_sort = true,
+    signs = true
+})
 
 require("sluna")
