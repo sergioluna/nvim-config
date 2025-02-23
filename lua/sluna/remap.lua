@@ -48,4 +48,4 @@ vim.keymap.set("n", "<leader>fs", "<C-w>s<C-w>j:Telescope find_files<CR>", {})
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 -- vim fugitive
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
+vim.keymap.set("n", "gs", vim.cmd.Git);
