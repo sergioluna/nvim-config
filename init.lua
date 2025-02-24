@@ -45,7 +45,7 @@ require("lazy").setup({
             require("github-theme").setup({
                 options = { transparent = false }
             })
-            vim.cmd("colorscheme github_dark_high_contrast")
+            vim.cmd("colorscheme github_dark_default")
         end
     },
     {
