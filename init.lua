@@ -89,10 +89,15 @@ require("lazy").setup({
     { "tpope/vim-fugitive" },
 
     { "mbbill/undotree" },
+
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
 })
 
 local lsp_zero = require("lsp-zero")
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_, bufnr)
     -- see :help lsp-zero-keybindings
     lsp_zero.default_keymaps({buffer = bufnr})
 end)
@@ -181,5 +186,7 @@ vim.diagnostic.config({
     severity_sort = true,
     signs = true
 })
+
+require('lualine').setup()
 
 require("sluna")
