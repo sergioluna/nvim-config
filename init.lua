@@ -20,7 +20,7 @@ require("lazy").setup({
         priority = 1000,
         config = function()
             require("nord").setup({})
-            vim.cmd.colorscheme("nord")
+            -- vim.cmd.colorscheme("nord")
 
             -- Override Fugitive diff colors to improve visibility
             vim.api.nvim_set_hl(0, "DiffAdd", { fg = "#A3BE8C", bg = "#2E3440" })    -- Green text on dark background
@@ -35,8 +35,18 @@ require("lazy").setup({
             vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#EBCB8B", bg = "NONE", bold = true })  -- Yellow for warnings
             vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#88C0D0", bg = "NONE" })  -- Blue hints
             vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#5E81AC", bg = "NONE" })  -- Subtle info messages
-
         end,
+    },
+    {
+        "projekt0n/github-nvim-theme",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("github-theme").setup({
+                options = { transparent = false }
+            })
+            vim.cmd("colorscheme github_dark_high_contrast")
+        end
     },
     {
         "nvim-treesitter/nvim-treesitter",
@@ -70,8 +80,6 @@ require("lazy").setup({
     { "hrsh7th/nvim-cmp" },
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
-
-    -- { "L3MON4D3/LuaSnip" },
 
     {
         "nvim-telescope/telescope.nvim", tag = "0.1.5",
