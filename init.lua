@@ -117,7 +117,6 @@ require("mason-lspconfig").setup({
         "lua_ls",
         "rust_analyzer",
         "ts_ls",
-        "denols",
         "html",
         "cssls",
         "dockerls"
@@ -126,12 +125,6 @@ require("mason-lspconfig").setup({
         -- first function is default function
         function(server_name)
             require('lspconfig')[server_name].setup({})
-        end,
-        denols = function()
-            local lspconfig = require('lspconfig')
-            lspconfig.denols.setup({
-                root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
-            })
         end,
         ts_ls = function()
             local lspconfig = require('lspconfig')
