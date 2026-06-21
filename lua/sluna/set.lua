@@ -32,3 +32,11 @@ vim.opt.updatetime = 50
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- Auto-reload buffers changed on disk when refocusing vim
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    pattern = "*",
+    command = "if mode() != 'c' | checktime | endif",
+    desc = "Reload buffers changed on disk",
+})
