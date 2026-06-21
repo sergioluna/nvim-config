@@ -14,29 +14,30 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    {
-        "gbprod/nord.nvim",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            require("nord").setup({})
-            -- vim.cmd.colorscheme("nord")
+    -- nord cholorscheme
+    -- {
+    --     "gbprod/nord.nvim",
+    --     lazy = false,
+    --     priority = 1000,
+    --     config = function()
+    --         require("nord").setup({})
+    --         vim.cmd.colorscheme("nord")
 
-            -- Override Fugitive diff colors to improve visibility
-            vim.api.nvim_set_hl(0, "DiffAdd", { fg = "#A3BE8C", bg = "#2E3440" })    -- Green text on dark background
-            vim.api.nvim_set_hl(0, "DiffChange", { fg = "#EBCB8B", bg = "#2E3440" }) -- Yellow text on dark background
-            vim.api.nvim_set_hl(0, "DiffDelete", { fg = "#BF616A", bg = "#2E3440" }) -- Red text on dark background
-            vim.api.nvim_set_hl(0, "DiffText", { fg = "#88C0D0", bg = "#434C5E" })   -- Blue text on slightly lighter background
-            -- Fix Neovim Errors (Make them more readable)
-            vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#BF616A", bg = "#2E3440", bold = true }) -- Red text on dark background
-            vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#EBCB8B", bg = "#2E3440", bold = true }) -- Yellow text on dark background
-            -- Fix LSP Diagnostic Colors
-            vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#BF616A", bg = "NONE", bold = true })  -- Red for LSP errors
-            vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#EBCB8B", bg = "NONE", bold = true })  -- Yellow for warnings
-            vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#88C0D0", bg = "NONE" })  -- Blue hints
-            vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#5E81AC", bg = "NONE" })  -- Subtle info messages
-        end,
-    },
+    --         -- Override Fugitive diff colors to improve visibility
+    --         vim.api.nvim_set_hl(0, "DiffAdd", { fg = "#A3BE8C", bg = "#2E3440" })    -- Green text on dark background
+    --         vim.api.nvim_set_hl(0, "DiffChange", { fg = "#EBCB8B", bg = "#2E3440" }) -- Yellow text on dark background
+    --         vim.api.nvim_set_hl(0, "DiffDelete", { fg = "#BF616A", bg = "#2E3440" }) -- Red text on dark background
+    --         vim.api.nvim_set_hl(0, "DiffText", { fg = "#88C0D0", bg = "#434C5E" })   -- Blue text on slightly lighter background
+    --         -- Fix Neovim Errors (Make them more readable)
+    --         vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#BF616A", bg = "#2E3440", bold = true }) -- Red text on dark background
+    --         vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#EBCB8B", bg = "#2E3440", bold = true }) -- Yellow text on dark background
+    --         -- Fix LSP Diagnostic Colors
+    --         vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#BF616A", bg = "NONE", bold = true })  -- Red for LSP errors
+    --         vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#EBCB8B", bg = "NONE", bold = true })  -- Yellow for warnings
+    --         vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#88C0D0", bg = "NONE" })  -- Blue hints
+    --         vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#5E81AC", bg = "NONE" })  -- Subtle info messages
+    --     end,
+    -- },
     {
         "projekt0n/github-nvim-theme",
         lazy = false,
@@ -45,7 +46,7 @@ require("lazy").setup({
             require("github-theme").setup({
                 options = { transparent = false }
             })
-            vim.cmd("colorscheme github_dark")
+            vim.cmd("colorscheme github_dark_dimmed")
         end
     },
     {
