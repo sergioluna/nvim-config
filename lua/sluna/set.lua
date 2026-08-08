@@ -33,6 +33,13 @@ vim.opt.updatetime = 50
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+        vim.lsp.buf.format({ async = false })
+    end,
+})
+
 -- Auto-reload buffers changed on disk when refocusing vim
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {

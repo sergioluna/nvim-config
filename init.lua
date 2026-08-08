@@ -78,6 +78,8 @@ require("lazy").setup({
     { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
     { "neovim/nvim-lspconfig" },
     { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/cmp-buffer" },
+    { "hrsh7th/cmp-path" },
     { "hrsh7th/nvim-cmp" },
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
@@ -141,6 +143,8 @@ local cmp = require('cmp')
 cmp.setup({
     sources = {
         {name = 'nvim_lsp'},
+        {name = 'buffer'},
+        {name = 'path'},
     },
     snippet = {
         expand = function(args)
@@ -169,13 +173,18 @@ for severity, icon in pairs(diagnostic_icons) do
 end
 
 -- Set diagnostic virtual text (right-side hints)
+-- Virtual text renders diagnostic messages (errors/warnings/hints) as inline
+-- text to the right of the code, e.g. "unused variable: `x`" appended after
+-- the offending line. Disabled below in favor of gutter signs only; open
+-- diagnostics on demand with vim.diagnostic.open_float() instead.
 vim.diagnostic.config({
-    virtual_text = {
-        prefix = function(diagnostic)
-            return diagnostic_icons[diagnostic.severity] .. " "
-        end,
-        spacing = 4,
-    },
+    -- virtual_text = {
+    --     prefix = function(diagnostic)
+    --         return diagnostic_icons[diagnostic.severity] .. " "
+    --     end,
+    --     spacing = 4,
+    -- },
+    virtual_text = false,
     update_in_insert = false,
     severity_sort = true,
     signs = true
