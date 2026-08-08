@@ -14,30 +14,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- nord cholorscheme
-    -- {
-    --     "gbprod/nord.nvim",
-    --     lazy = false,
-    --     priority = 1000,
-    --     config = function()
-    --         require("nord").setup({})
-    --         vim.cmd.colorscheme("nord")
-
-    --         -- Override Fugitive diff colors to improve visibility
-    --         vim.api.nvim_set_hl(0, "DiffAdd", { fg = "#A3BE8C", bg = "#2E3440" })    -- Green text on dark background
-    --         vim.api.nvim_set_hl(0, "DiffChange", { fg = "#EBCB8B", bg = "#2E3440" }) -- Yellow text on dark background
-    --         vim.api.nvim_set_hl(0, "DiffDelete", { fg = "#BF616A", bg = "#2E3440" }) -- Red text on dark background
-    --         vim.api.nvim_set_hl(0, "DiffText", { fg = "#88C0D0", bg = "#434C5E" })   -- Blue text on slightly lighter background
-    --         -- Fix Neovim Errors (Make them more readable)
-    --         vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#BF616A", bg = "#2E3440", bold = true }) -- Red text on dark background
-    --         vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#EBCB8B", bg = "#2E3440", bold = true }) -- Yellow text on dark background
-    --         -- Fix LSP Diagnostic Colors
-    --         vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "#BF616A", bg = "NONE", bold = true })  -- Red for LSP errors
-    --         vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "#EBCB8B", bg = "NONE", bold = true })  -- Yellow for warnings
-    --         vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "#88C0D0", bg = "NONE" })  -- Blue hints
-    --         vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "#5E81AC", bg = "NONE" })  -- Subtle info messages
-    --     end,
-    -- },
     {
         "projekt0n/github-nvim-theme",
         lazy = false,
@@ -49,10 +25,11 @@ require("lazy").setup({
             vim.cmd("colorscheme github_dark_dimmed")
         end
     },
+
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function ()
+        config = function()
             local configs = require("nvim-treesitter.configs")
 
             configs.setup({
@@ -75,7 +52,7 @@ require("lazy").setup({
         end
     },
 
-    { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
+    { "VonHeikemen/lsp-zero.nvim",        branch = "v3.x" },
     { "neovim/nvim-lspconfig" },
     { "hrsh7th/cmp-nvim-lsp" },
     { "hrsh7th/cmp-buffer" },
@@ -85,7 +62,8 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim" },
 
     {
-        "nvim-telescope/telescope.nvim", tag = "0.1.5",
+        "nvim-telescope/telescope.nvim",
+        tag = "0.1.5",
         dependencies = { "nvim-lua/plenary.nvim" }
     },
 
@@ -102,7 +80,7 @@ require("lazy").setup({
 local lsp_zero = require("lsp-zero")
 lsp_zero.on_attach(function(_, bufnr)
     -- see :help lsp-zero-keybindings
-    lsp_zero.default_keymaps({buffer = bufnr})
+    lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
 -- This should be executed before language server configurations
@@ -142,9 +120,9 @@ require("mason-lspconfig").setup({
 local cmp = require('cmp')
 cmp.setup({
     sources = {
-        {name = 'nvim_lsp'},
-        {name = 'buffer'},
-        {name = 'path'},
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+        { name = 'path' },
     },
     snippet = {
         expand = function(args)
@@ -172,18 +150,7 @@ for severity, icon in pairs(diagnostic_icons) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
--- Set diagnostic virtual text (right-side hints)
--- Virtual text renders diagnostic messages (errors/warnings/hints) as inline
--- text to the right of the code, e.g. "unused variable: `x`" appended after
--- the offending line. Disabled below in favor of gutter signs only; open
--- diagnostics on demand with vim.diagnostic.open_float() instead.
 vim.diagnostic.config({
-    -- virtual_text = {
-    --     prefix = function(diagnostic)
-    --         return diagnostic_icons[diagnostic.severity] .. " "
-    --     end,
-    --     spacing = 4,
-    -- },
     virtual_text = false,
     update_in_insert = false,
     severity_sort = true,
